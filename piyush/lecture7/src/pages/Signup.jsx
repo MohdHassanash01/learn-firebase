@@ -1,10 +1,14 @@
 import  { useState } from "react";
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth,
+   createUserWithEmailAndPassword
+   , GoogleAuthProvider,
+  signInWithPopup } from "firebase/auth";
 import { app } from "../firebase";
 
 
 const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider()
 
 function Signup() {
 
@@ -19,9 +23,10 @@ function Signup() {
       alert("signup successfully")
       console.log(value)}
         )
-    
-    
+  }
 
+  function signinWithGoogle(){
+    signInWithPopup(auth,googleProvider)
   }
   
 
@@ -45,6 +50,11 @@ type="text" placeholder="enter password" />
 <button 
 className="border w-fit mx-auto px-10 rounded"
 onClick={handleSubmit}>Register</button>
+
+
+<button 
+className="border w-fit mx-auto px-10 rounded"
+onClick={signinWithGoogle}>Sign In with Google</button>
 
       </div>
     </>

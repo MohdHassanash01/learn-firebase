@@ -1,31 +1,15 @@
+import React from 'react'
+import Signup from './pages/Signup'
+import Signin from './pages/Signin'
 
-import { getAuth,createUserWithEmailAndPassword } from "firebase/auth";
-import {app} from "./firebase"
-import Signup from "./pages/Signup";
-
-
-const auth = getAuth(app)
-
-
-function App() {
-
-
-  function signup(){
-
-    createUserWithEmailAndPassword(auth,"hassan@gmail.com","Mohdhshs").then((value) => console.log(value)
-    )
-
-  }
-
+const App = () => {
   return (
-    <>
-   <div>
-<h1>Firebase React App</h1>
+    <div className='w-full min-h-screen bg-green-300 flex flex-col gap-30'>
 
-<Signup/>
-
-   </div>
-    </>
+      <Signup/>
+      <Signin/>
+      
+    </div>
   )
 }
 

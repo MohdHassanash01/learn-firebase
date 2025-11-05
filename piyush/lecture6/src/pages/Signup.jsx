@@ -1,30 +1,19 @@
 import  { useState } from "react";
-
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { app } from "../firebase";
-
-
-const auth = getAuth(app);
+import {useFirebase} from "../context/Firebase"
 
 function Signup() {
 
+  const {signupUserWithEmailAndPassword, putData} = useFirebase()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  function handleSubmit(){
-
-    console.log(email, password);
-
-    createUserWithEmailAndPassword(auth,email,password).then((value) => {
-      alert("signup successfully")
-      console.log(value)}
-        )
-    
-    
-
+  async function handleSignUp(){
+    const value = await signupUserWithEmailAndPassword(email,password)
+    console.log(value);
+    await putData("users/"+ "hassan" , { email, password})
   }
-  
 
+  
   return (
     <>
 
@@ -43,8 +32,10 @@ onChange={(e) => setPassword(e.target.value)}
 type="text" placeholder="enter password" />
 
 <button 
+onClick={handleSignUp}
 className="border w-fit mx-auto px-10 rounded"
-onClick={handleSubmit}>Register</button>
+>Register</button>
+
 
       </div>
     </>
