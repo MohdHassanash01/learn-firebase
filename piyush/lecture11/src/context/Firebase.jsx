@@ -6,7 +6,8 @@ import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
     onAuthStateChanged
 } from "firebase/auth"
 
-import {getFirestore} from "firebase/firestore"
+import {getFirestore, collection, addDoc, getDocs} from "firebase/firestore"
+import {getStorage, ref, uploadBytes, getDownloadURL} from "firebase/storage"
 
 const FirebaseContext = createContext(null)
 
@@ -24,6 +25,7 @@ const firebaseAuth = getAuth(firebaseApp)
 const  googleProvider = new GoogleAuthProvider()
 
 const firestore = getFirestore(firebaseApp)
+const storage = getStorage(firebaseApp)
 
 export const FirebaseProvider = (props) => {
 
@@ -41,11 +43,6 @@ export const FirebaseProvider = (props) => {
     }
 
 
-    function handleCreatenewList(name,isbn, price,coverPic){
-
-
-
-    }
 
 
     const [user, setuser] = useState(null)
@@ -63,11 +60,45 @@ export const FirebaseProvider = (props) => {
     
     const isloggedIn = user ? true : false
 
+    
+    async function handleCreatenewList(name,isbn, price,coverPic){
+
+        const imageRef = ref(storage,`uploads/images/${Date.now()}-${coverPic.name}`)
+       const uploadResult =  await uploadBytes(imageRef,coverPic)
+
+       return await addDoc(collection(firestore,"bokks"),{
+        name,
+        isbn,
+        price,
+        imageURL:uploadResult.ref.fullPath,
+        userID: user.uid,
+        userEmail: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL
+       })
+
+
+    }
+
+    async function getData(){
+
+        return getDocs(collection(firestore,"bokks"))
+
+    }
+    
+
+     function getImagesUrl(path) {
+        return getDownloadURL(ref(storage,path)) 
+    }
+
+
     return (
         <FirebaseContext.Provider value={{signupuserWithemailandPassword,
          signinWithEmailAndPassword,
          signinWithGoogle,
          handleCreatenewList,
+         getData,
+         getImagesUrl,
          user,
          isloggedIn   
         }}>

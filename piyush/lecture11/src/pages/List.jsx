@@ -1,10 +1,9 @@
-import React from 'react'
-import  {useState,useEffect} from 'react'
+
+import  {useState} from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import {useFirebase} from "../context/Firebase"
-import { useNavigate } from 'react-router-dom';
 
 
 
@@ -19,7 +18,6 @@ const List = () => {
     const [coverPic, setCoverPic] = useState("")
 
     async function handleSubmit(e){
-
         e.preventDefault()
         console.log({
             name,
@@ -27,7 +25,11 @@ const List = () => {
             price,
             coverPic
         });
-     await handleCreatenewList(name,isbnNumber,price,coverPic)
+     const data = await handleCreatenewList(name,isbnNumber,price,coverPic)
+
+     console.log(data);
+     
+
     }
 
   return (

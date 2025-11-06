@@ -8,9 +8,9 @@ const NavbBar = () => {
     <>
         <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">Bookify</Navbar.Brand>
+          <Navbar.Brand href="/">Bookify</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link >
                 <Link className="text-white " to={"/addBooks"}>Add Listing</Link>
             </Nav.Link>
